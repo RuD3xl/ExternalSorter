@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<VBox spacing="15" alignment="CENTER" prefWidth="650" prefHeight="600" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.practice.coursework.ui.MainController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Програма для зовнішнього сортування даних" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <!-- Блок 1: Джерело даних (Файл або Генерація) -->
+    <VBox spacing="10" style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-padding: 10;">
+        <Label text="1. Джерело даних:" style="-fx-font-weight: bold;"/>
+
+        <HBox spacing="20">
+            <RadioButton fx:id="rbSelect" text="Обрати існуючий файл" selected="true" onAction="#handleSourceToggle"/>
+            <RadioButton fx:id="rbGenerate" text="Згенерувати новий файл" onAction="#handleSourceToggle"/>
+        </HBox>
+
+        <StackPane>
+            <!-- Панель вибору файлу -->
+            <HBox fx:id="paneSelect" spacing="10" alignment="CENTER_LEFT">
+                <Button text="Огляд.." onAction="#handleSelectFile"/>
+                <TextField fx:id="txtFilePath" editable="false" promptText="Шлях до файлу" HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <!-- Панель генерації (спочатку прихована) -->
+            <HBox fx:id="paneGenerate" spacing="10" alignment="CENTER_LEFT" visible="false">
+                <Label text="Кількість чисел для генерації:"/>
+                <TextField fx:id="txtGenerateCount" text="1000000" HBox.hgrow="ALWAYS"/>
+                <Label text="(буде створено generated_input.bin)"/>
+            </HBox>
+        </StackPane>
+    </VBox>
+
+    <!-- Блок 2: Налаштування сортування з підказкою ⓘ -->
+    <VBox spacing="5" style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-padding: 10;">
+        <Label text="2. Оберіть метод сортування:" style="-fx-font-weight: bold;"/>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <ComboBox fx:id="comboAlgorithm" prefWidth="300">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Збалансоване багатошляхове злиття"/>
+                        <String fx:value="Природне злиття"/>
+                        <String fx:value="Багатофазне злиття"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <!-- Наша іконка інформації -->
+            <Label fx:id="lblInfo" text="ⓘ" style="-fx-font-size: 18px; -fx-text-fill: #2196F3; -fx-cursor: hand;"/>
+        </HBox>
+    </VBox>
+
+    <!-- Блок 3: Керування -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="Запустити сортування" fx:id="btnStart" onAction="#handleStartSort" prefWidth="220" prefHeight="40" style="-fx-font-size: 14px; -fx-base: #4CAF50;"/>
+        <!-- Нова кнопка для логів -->
+        <Button text="Показати детальні логи" onAction="#handleShowLogs" prefHeight="40"/>
+    </HBox>
+
+    <ProgressBar fx:id="progressBar" prefWidth="450" progress="0.0"/>
+
+    <!-- Блок 4: Короткі статуси -->
+    <VBox VBox.vgrow="ALWAYS">
+        <Label text="Статус виконання:" style="-fx-font-weight: bold;"/>
+        <TextArea fx:id="txtLog" editable="false" wrapText="true" prefHeight="100" VBox.vgrow="ALWAYS" style="-fx-font-family: 'Consolas';"/>
+    </VBox>
+
+    <!-- Блок 5: Експорт результату -->
+    <HBox spacing="10" alignment="CENTER" style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-padding: 10;">
+        <Label text="Експорт в TXT - Позиція:"/>
+        <TextField fx:id="txtExportStart" text="0" prefWidth="70"/>
+        <Label text="Кількість:"/>
+        <TextField fx:id="txtExportCount" text="1000" prefWidth="70"/>
+        <Button text="Експортувати" onAction="#handleExport"/>
+    </HBox>
+</VBox>
